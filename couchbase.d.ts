@@ -4,7 +4,7 @@ declare module "nativescript-couchbase" {
         constructor(databaseName: string);
         createDocument(data: Object, documentId?: string);
         getDocument(documentId: string);
-        updateDocument(documentId: string, data: Object);
+        updateDocument(documentId: string, data: any);
         deleteDocument(documentId: string);
         destroyDatabase();
         createView(viewName: string, viewRevision: string, callback: any);

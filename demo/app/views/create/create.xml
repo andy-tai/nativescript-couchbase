@@ -6,10 +6,14 @@
 			</ActionBar.actionItems>
 		</ActionBar>
 	</Page.actionBar>
-    <StackLayout>
-        <Label text="First Name" />
-        <TextField id="firstname" />
-        <Label text="Last Name" />
-        <TextField id="lastname" />
+    <StackLayout class="form">
+        <StackLayout class="input-field">
+            <Label class="label" text="First Name:"></Label>
+            <TextField id="firstname" class="input input-border" autocorrect="false" autocapitalizationType="none"></TextField>
+        </StackLayout>
+        <StackLayout class="input-field">
+            <Label class="label" text="Last Name:"></Label>
+            <TextField id="lastname" class="input input-border" autocorrect="false" autocapitalizationType="none"></TextField>
+        </StackLayout>
     </StackLayout>
 </Page>

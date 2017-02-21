@@ -1,26 +1,27 @@
 {
   "name": "nativescript-couchbase",
-  "version": "1.0.14",
+  "version": "1.0.17",
   "description": "Couchbase Lite plugin for Telerik NativeScript",
-  "main": "couchbase.js",
+  "main": "couchbase",
+  "typings": "couchbase.d.ts",
   "nativescript": {
     "platforms": {
-      "android": "2.0.0",
-      "ios": "2.0.0"
+      "android": "2.5.0",
+      "ios": "2.5.0"
     }
   },
   "scripts": {
-    "build": "tsc",
-    "setup-angular": "cd ng-demo; npm install; cd ..; npm run build; cd ng-demo; tns plugin add ..; cd ..",
-    "setup-vanilla": "cd demo; npm install; cd ..; npm run build; cd demo; tns plugin add ..; cd ..",
-    "setup": "npm run setup-vanilla; npm run setup-angular",
-    "prepare-angular": "npm run build; cd ng-demo; tns plugin remove nativescript-couchbase; tns plugin add ..; tns install",
-    "prepare-vanilla": "npm run build; cd demo; tns plugin remove nativescript-couchbase; tns plugin add ..; tns install",
-    "prepare": "npm run prepare-vanilla; npm run prepare-angular",
-    "android-angular": "npm run prepare-angular; cd ng-demo; tns run android",
-    "android-vanilla": "npm run prepare-vanilla; cd demo; tns run android",
-    "ios-angular": "npm run prepare-angular; cd ng-demo; tns emulate ios",
-    "ios-vanilla": "npm run prepare-vanilla; cd demo; tns emulate ios"
+    "prepare": "echo \"Preparing...\"; npm run build;",
+    "build": "echo \"Building...\"; tsc;",
+    "configure": "echo \"Configuring...\"; npm run configure-vanilla; npm run configure-angular;",
+    "configure-vanilla": "echo \"Configuring Vanilla...\"; cd demo; tns install; tns plugin remove nativescript-couchbase; tns plugin add ..; cd ..",
+    "configure-angular": "echo \"Configuring Angular...\"; cd ng-demo; tns install; tns plugin remove nativescript-couchbase; tns plugin add ..; cd ..",
+    "deploy-android-angular": "echo \"Deploying Android Angular...\"; npm run configure-angular; cd ng-demo; tns run android",
+    "deploy-android-vanilla": "echo \"Deploying Android Vanilla...\"; npm run configure-vanilla; cd demo; tns run android",
+    "deploy-ios-angular": "echo \"Deploying iOS Angular...\"; npm run configure-angular; cd ng-demo; tns run ios",
+    "deploy-ios-vanilla": "echo \"Deploying iOS Vanilla...\"; npm run configure-vanilla; cd demo; tns run ios",
+    "webpack-vanilla": "echo \"Webpacking Vanilla...\"; npm run configure; cd demo; npm run webpack-ios; npm run webpack-android; cd ..;",
+    "webpack-angular": "echo \"Webpacking Angular...\"; npm run configure; cd ng-demo; npm run webpack-ios; npm run webpack-android; cd ..;"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,12 @@
     "nosql",
     "nativescript"
   ],
-  "author": "Nic Raboy",
-  "license": "Apache-2.0"
+  "author": {
+    "name": "Nic Raboy",
+    "url": "https://www.thepolyglotdeveloper.com"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "tns-core-modules": "^2.5.0"
+  }
 }

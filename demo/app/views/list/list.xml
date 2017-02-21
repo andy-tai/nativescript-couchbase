@@ -1,14 +1,14 @@
 <Page loaded="pageLoaded">
     <Page.actionBar>
-		<ActionBar title="TypeScript Demo">
+		<ActionBar title="{N} Vanilla">
 			<ActionBar.actionItems>
 				<ActionItem text="Create" tap="{{ create }}" ios.position="right" />
 			</ActionBar.actionItems>
 		</ActionBar>
 	</Page.actionBar>
-    <ListView items="{{ personList }}">
+    <ListView items="{{ personList }}" class="list-group">
         <ListView.itemTemplate>
-            <StackLayout>
+            <StackLayout class="list-group-item">
                 <Label text="{{ (firstname + ' ' + lastname) }}" />
             </StackLayout>
         </ListView.itemTemplate>

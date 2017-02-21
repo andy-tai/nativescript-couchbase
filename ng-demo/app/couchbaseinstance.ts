@@ -1,29 +1,25 @@
 import { Injectable } from "@angular/core";
-import {Couchbase} from 'nativescript-couchbase';
+import { Couchbase } from 'nativescript-couchbase';
 
 @Injectable()
 export class CouchbaseInstance {
 
-    private isInstantiated: boolean;
     private database: any;
     private pull: any;
     private push: any;
 
-    constructor() {
-        if(!this.isInstantiated) {
-            this.database = new Couchbase("test-database");
-            this.database.createView("people", "1", (document, emitter) => {
-                emitter.emit(document._id, document);
-            });
-            this.isInstantiated = true;
-        }
+    public constructor() {
+        this.database = new Couchbase("test-database");
+        this.database.createView("people", "1", (document, emitter) => {
+            emitter.emit(document._id, document);
+        });
     }
 
-    getDatabase() {
+    public getDatabase() {
         return this.database;
     }
 
-    startSync(continuous: boolean) {
+    public startSync(continuous: boolean) {
         this.push = this.database.createPushReplication("http://192.168.57.1:4984/test-database");
         this.pull = this.database.createPullReplication("http://192.168.57.1:4984/test-database");
 
@@ -34,7 +30,7 @@ export class CouchbaseInstance {
         this.pull.start();
     }
 
-    stopSync() {
+    public stopSync() {
         this.push.stop();
         this.pull.stop();
     }

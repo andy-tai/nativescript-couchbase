@@ -11,7 +11,7 @@ export class Couchbase {
     private manager: any;
     private database: any;
 
-    constructor(databaseName: string) {
+    public constructor(databaseName: string) {
         this.context = utils.ad.getApplicationContext();
         try {
             this.manager = new com.couchbase.lite.Manager(new com.couchbase.lite.android.AndroidContext(this.context), null);
@@ -21,7 +21,7 @@ export class Couchbase {
         }
     }
 
-    createDocument(data: Object, documentId?: string) {
+    public createDocument(data: Object, documentId?: string) {
         var document: any = documentId == null ? this.database.createDocument() : this.database.getDocument(documentId);
         var documentId: string = document.getId();
         try {
@@ -32,13 +32,16 @@ export class Couchbase {
         return documentId;
     }
 
-    getDocument(documentId: string) {
+    public getDocument(documentId: string) {
         var document: any = this.database.getDocument(documentId);
         return JSON.parse(this.mapToJson(document.getProperties()));
     }
 
-    updateDocument(documentId: string, data: Object) {
-        var document: any = this.database.getDocument(documentId);
+    public updateDocument(documentId: string, data: any) {
+        let document: any = this.database.getDocument(documentId);
+        let temp: any = JSON.parse(this.mapToJson(document.getProperties()));
+        data._id = temp._id;
+        data._rev = temp._rev;
         try {
             document.putProperties(this.objectToMap(data));
         } catch (exception) {
@@ -46,7 +49,7 @@ export class Couchbase {
         }
     }
 
-    deleteDocument(documentId: string) {
+    public deleteDocument(documentId: string) {
         var document: any = this.database.getDocument(documentId);
         try {
             document.delete();
@@ -56,7 +59,7 @@ export class Couchbase {
         return document.isDeleted();
     }
 
-    destroyDatabase() {
+    public destroyDatabase() {
         try {
             this.database.delete();
         } catch (exception) {
@@ -64,7 +67,7 @@ export class Couchbase {
         }
     }
 
-    createView(viewName: string, viewRevision: string, callback: any) {
+    public createView(viewName: string, viewRevision: string, callback: any) {
         var view = this.database.getView(viewName);
         var self = this;
         view.setMap(new com.couchbase.lite.Mapper({
@@ -75,7 +78,7 @@ export class Couchbase {
         }), viewRevision);
     }
 
-    executeQuery(viewName: string, options?: any) {
+    public executeQuery(viewName: string, options?: any) {
         var query = this.database.getView(viewName).createQuery();
         if(options != null) {
             if(options.descending) {
@@ -103,7 +106,7 @@ export class Couchbase {
         return parsedResult;
     }
 
-    createPullReplication(remoteUrl: string) {
+    public createPullReplication(remoteUrl: string) {
         var replication;
         try {
             replication = this.database.createPullReplication(new java.net.URL(remoteUrl));
@@ -113,7 +116,7 @@ export class Couchbase {
         return new Replicator(replication);
     }
 
-    createPushReplication(remoteUrl: string) {
+    public createPushReplication(remoteUrl: string) {
         var replication;
         try {
             replication = this.database.createPushReplication(new java.net.URL(remoteUrl));
@@ -123,9 +126,8 @@ export class Couchbase {
         return new Replicator(replication);
     }
 
-    addDatabaseChangeListener(callback: any) {
+    public addDatabaseChangeListener(callback: any) {
         try {
-            var self = this;
             this.database.addChangeListener(new com.couchbase.lite.Database.ChangeListener({
                 changed(event) {
                     let changes: Array<any> = event.getChanges().toArray();
