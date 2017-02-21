@@ -54,6 +54,13 @@ export class ListComponent {
         let rows = this.database.executeQuery("people");
         for(let i = 0; i < rows.length; i++) {
             this.personList.push(rows[i]);
+            console.log("before adding fields " + i + " to document");
+            rows[i]["test_" + i] = i;
+            
+            rows[i].data = {"pulse":72,"mean":0,"diap":80,"sysp":120,"arm":1,"dateTime":"2016-12-22T00:46:10.411Z","assessmentBMI":{"text_long":"According to the CDC, your body mass index of 25.8 is considered overweight. Being overweight may cause high blood pressure or hypertension","text_short":"Overweight","title":"","icon":1},"assessmentBP":{"text_long":"Systolic & Diastolic Prehypertension: If under hypertension therapy, you reached your blood pressure goal, keep up the good work! It's recommended you make lifestyle changes including diet and exercise to improve your blood pressure. ","text_short":"Systolic & Diastolic Prehypertension: If under hypertension therapy, you reached your blood pressure goal, keep up the good work! It's recommended you make lifestyle changes including diet and exercise to improve your blood pressure. ","title":"","icon":0},"assessmentHR":{"text_long":"A heart rate of 72 is normal. ","text_short":"A heart rate of 72 is normal. ","title":"","icon":0},"comments":""};
+            
+            this.database.updateDocument(rows[i]._id, rows[i]);
+            console.log("after adding fields " + i + " to document");
         }
     }
 
